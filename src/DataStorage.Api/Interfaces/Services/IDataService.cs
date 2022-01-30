@@ -2,7 +2,7 @@
 {
     public interface IDataService
     {
-        void UpdateData(string repository);
+        void UpdateDataObject(string repository);
         void GetDataObject(string repository, string objectId);
         void DeleteDataObject(string repository, string objectId);
     }

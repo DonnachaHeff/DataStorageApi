@@ -12,7 +12,7 @@ namespace DataStorage.Api.Services
             _dataRepository = dataRepository;
         }
 
-        public void UpdateData(string repository)
+        public void UpdateDataObject(string repository)
         {
             _dataRepository.UpdateData(repository);
         }

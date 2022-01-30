@@ -1,5 +1,7 @@
-﻿using System.IO;
-using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using DataStorage.Api.Interfaces.Services;
+using DataStorage.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
@@ -9,38 +11,54 @@ namespace DataStorage.Api.Controllers
     [Route("[controller]")]
     public class DataController : ControllerBase
     {
-        public DataController()
+        private readonly IDataService _dataService;
+
+        public DataController(IDataService dataService)
         {
-            // Consider injecting your abstracted dependencies here
+            _dataService = dataService;
         }
 
         [HttpPut]
         [Route("{repository}")]
-        public async Task<IActionResult> UploadObjectAsync(string repository)
+        public IActionResult UploadObjectAsync(string repository, CreateObjectRequest request)
         {
-            // Store the data somewhere
-            await Task.CompletedTask;
-            object result = null;
+            if (string.IsNullOrEmpty(repository))
+            {
+                return BadRequest("Repository needs to be specified");
+            }
 
-            return CreatedAtAction(
-                "DownloadObject", // Works with or without Async suffix on DownloadObject method
-                routeValues: new { repository, objectID = "some object id" },
-                value: result);
+            try 
+            {
+                return Ok();
+                //var result = _dataService.UpdateDataObject(repository);
+                //return Ok(result);
+                //return CreatedAtAction(
+                //    "DownloadObject", // Works with or without Async suffix on DownloadObject method
+                //    routeValues: new { repository, objectID = "some object id" },
+                //    value: result);
+            }
+            catch(Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
 
         [HttpGet]
         [Route("{repository}/{objectID}")]
         public IActionResult DownloadObject(string repository, string objectID)
         {
-            bool foundData = false;
-
-            // Get the data from somewhere
-
-            if (foundData)
+            if (string.IsNullOrEmpty(repository) || string.IsNullOrEmpty(objectID))
             {
-                return new FileStreamResult(fileStream: new MemoryStream(), "application/octet-stream");
+                return BadRequest();
+
             }
-            else
+
+            try
+            {
+                _dataService.GetDataObject(repository, objectID);
+                return Ok();
+            }
+            catch(KeyNotFoundException e)
             {
                 return NotFound();
             }
@@ -50,13 +68,18 @@ namespace DataStorage.Api.Controllers
         [Route("{repository}/{objectID}")]
         public IActionResult DeleteObject(string repository, string objectID)
         {
-            bool couldDeleteObject = false;
-
-            if (couldDeleteObject)
+            if (string.IsNullOrEmpty(repository) || string.IsNullOrEmpty(objectID))
             {
+                return BadRequest();
+
+            }
+
+            try
+            {
+                _dataService.DeleteDataObject(repository, objectID);
                 return Ok();
             }
-            else
+            catch(KeyNotFoundException e)
             {
                 return NotFound();
             }
