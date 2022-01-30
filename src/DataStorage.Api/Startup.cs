@@ -1,7 +1,9 @@
+using DataStorage.Api.Dependencies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace DataStorage.Api
 {
@@ -17,16 +19,24 @@ namespace DataStorage.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSwaggerGen();
             services.AddControllers();
-
-            // A suggestion on how to abstract away storage...
-            // services.AddSingleton<IStorage, Storage>();
+            services.AddDependencies();
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            if (env.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
+
             app.UseDeveloperExceptionPage();
+
+            app.UseHttpsRedirection();
 
             app.UseRouting();
 
