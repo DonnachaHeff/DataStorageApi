@@ -2,19 +2,35 @@
 using System.Collections.Generic;
 using DataStorage.Api.Interfaces.Repository;
 using DataStorage.EF.Context;
+using DataStorage.Api.Models;
+using DataStorage.EF.Entities;
 
 namespace DataStorage.Api.Repositories
 {
     public class DataRepository : IDataRepository
     {
-        public void UpdateData(string repository)
+        public void UpdateData(string repository, CreateObjectRequest request)
         {
             using (var db = new DataStorageContext())
             {
-                var result = db.ExpectedObjects.FirstOrDefault(x => x.Repository == repository);
+                var result = db.ExpectedObjects.FirstOrDefault(x => x.Repository == repository && x.ObjectId == request.oid);
 
-                // if data already exists, don't allow duplicate
-                // else create new
+                if (result != null)
+                {
+                    return;
+                }    
+                else
+                {
+                    var entity = new ExpectedObject
+                    {
+                        ObjectId = request.oid,
+                        Size = request.size,
+                        Repository = repository
+                    };
+
+                    db.ExpectedObjects.Add(entity);
+                    db.SaveChanges();
+                }
             }
         }
 
@@ -44,6 +60,7 @@ namespace DataStorage.Api.Repositories
                 if (entityToBeRemoved != null)
                 {
                     db.Remove(entityToBeRemoved);
+                    db.SaveChanges();
                 }
                 else
                 {

@@ -1,5 +1,6 @@
 ﻿using DataStorage.Api.Interfaces.Repository;
 using DataStorage.Api.Interfaces.Services;
+using DataStorage.Api.Models;
 
 namespace DataStorage.Api.Services
 {
@@ -12,9 +13,9 @@ namespace DataStorage.Api.Services
             _dataRepository = dataRepository;
         }
 
-        public void UpdateDataObject(string repository)
+        public void UpdateDataObject(string repository, CreateObjectRequest request)
         {
-            _dataRepository.UpdateData(repository);
+            _dataRepository.UpdateData(repository, request);
         }
 
         public void GetDataObject(string repository, string objectId)

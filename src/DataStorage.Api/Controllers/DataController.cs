@@ -18,6 +18,7 @@ namespace DataStorage.Api.Controllers
             _dataService = dataService;
         }
 
+        [ProducesResponseType(201)]
         [HttpPut]
         [Route("{repository}")]
         public IActionResult UploadObjectAsync(string repository, CreateObjectRequest request)
@@ -29,8 +30,8 @@ namespace DataStorage.Api.Controllers
 
             try 
             {
+                _dataService.UpdateDataObject(repository, request);
                 return Ok();
-                //var result = _dataService.UpdateDataObject(repository);
                 //return Ok(result);
                 //return CreatedAtAction(
                 //    "DownloadObject", // Works with or without Async suffix on DownloadObject method
@@ -43,6 +44,8 @@ namespace DataStorage.Api.Controllers
             }
         }
 
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
         [HttpGet]
         [Route("{repository}/{objectID}")]
         public IActionResult DownloadObject(string repository, string objectID)
@@ -64,6 +67,7 @@ namespace DataStorage.Api.Controllers
             }
         }
 
+        [ProducesResponseType(200)]
         [HttpDelete]
         [Route("{repository}/{objectID}")]
         public IActionResult DeleteObject(string repository, string objectID)
