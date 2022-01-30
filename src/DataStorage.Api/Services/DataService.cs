@@ -18,9 +18,9 @@ namespace DataStorage.Api.Services
             _dataRepository.UpdateData(repository, request);
         }
 
-        public void GetDataObject(string repository, string objectId)
+        public ExpectedObjectDTO GetDataObject(string repository, string objectId)
         {
-            _dataRepository.GetDataObject(repository, objectId);
+            return _dataRepository.GetDataObject(repository, objectId);
         }
 
         public void DeleteDataObject(string repository, string objectId)

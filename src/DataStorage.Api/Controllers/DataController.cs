@@ -32,11 +32,6 @@ namespace DataStorage.Api.Controllers
             {
                 _dataService.UpdateDataObject(repository, request);
                 return Ok();
-                //return Ok(result);
-                //return CreatedAtAction(
-                //    "DownloadObject", // Works with or without Async suffix on DownloadObject method
-                //    routeValues: new { repository, objectID = "some object id" },
-                //    value: result);
             }
             catch(Exception e)
             {
@@ -58,8 +53,8 @@ namespace DataStorage.Api.Controllers
 
             try
             {
-                _dataService.GetDataObject(repository, objectID);
-                return Ok();
+                var result = _dataService.GetDataObject(repository, objectID);
+                return Ok(result);
             }
             catch(KeyNotFoundException e)
             {

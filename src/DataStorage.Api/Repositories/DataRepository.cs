@@ -34,7 +34,7 @@ namespace DataStorage.Api.Repositories
             }
         }
 
-        public void GetDataObject(string repository, string objectId)
+        public ExpectedObjectDTO GetDataObject(string repository, string objectId)
         {
             using (var db = new DataStorageContext())
             {
@@ -47,6 +47,12 @@ namespace DataStorage.Api.Repositories
                 else
                 {
                     // map result and return
+                    return new ExpectedObjectDTO
+                    {
+                        oid = result.ObjectId,
+                        size = long.Parse(result.Size)
+                    };
+
                 }
             }
         }
