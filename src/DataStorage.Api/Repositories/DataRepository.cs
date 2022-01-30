@@ -13,7 +13,8 @@ namespace DataStorage.Api.Repositories
         {
             using (var db = new DataStorageContext())
             {
-                var result = db.ExpectedObjects.FirstOrDefault(x => x.Repository == repository && x.ObjectId == request.oid);
+                var result = db.ExpectedObjects.FirstOrDefault(x => x.Repository.ToUpperInvariant() == repository.ToUpperInvariant()
+                && x.ObjectId.ToUpperInvariant() == request.oid.ToUpperInvariant());
 
                 if (result != null)
                 {
@@ -38,7 +39,8 @@ namespace DataStorage.Api.Repositories
         {
             using (var db = new DataStorageContext())
             {
-                var result = db.ExpectedObjects.FirstOrDefault(x => x.Repository == repository && x.ObjectId == objectId);
+                var result = db.ExpectedObjects.FirstOrDefault(x => x.Repository.ToUpperInvariant() == repository.ToUpperInvariant()
+                && x.ObjectId.ToUpperInvariant() == objectId.ToUpperInvariant());
 
                 if (result == null)
                 {
@@ -61,7 +63,8 @@ namespace DataStorage.Api.Repositories
         {
             using (var db = new DataStorageContext())
             {
-                var entityToBeRemoved = db.ExpectedObjects.FirstOrDefault(x => x.Repository == repository && x.ObjectId == objectId);
+                var entityToBeRemoved = db.ExpectedObjects.FirstOrDefault(x => x.Repository.ToUpperInvariant() == repository.ToUpperInvariant() 
+                && x.ObjectId.ToUpperInvariant() == objectId.ToUpperInvariant());
 
                 if (entityToBeRemoved != null)
                 {
