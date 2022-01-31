@@ -1,11 +1,12 @@
 ﻿using DataStorage.Api.Models;
+using System.Threading.Tasks;
 
 namespace DataStorage.Api.Interfaces.Repository
 {
     public interface IDataRepository
     {
-        void UpdateData(string repository, CreateObjectRequest request);
-        ExpectedObjectDTO  GetDataObject(string repository, string objectId);
+        Task UpdateData(string repository, CreateObjectRequest request);
+        Task<ExpectedObjectDTO>  GetDataObject(string repository, string objectId);
         void DeleteDataObject(string repository, string objectId);
     }
 }

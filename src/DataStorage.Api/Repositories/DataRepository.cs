@@ -4,17 +4,19 @@ using DataStorage.Api.Interfaces.Repository;
 using DataStorage.EF.Context;
 using DataStorage.Api.Models;
 using DataStorage.EF.Entities;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataStorage.Api.Repositories
 {
     public class DataRepository : IDataRepository
     {
-        public void UpdateData(string repository, CreateObjectRequest request)
+        public async Task UpdateData(string repository, CreateObjectRequest request)
         {
             using (var db = new DataStorageContext())
             {
-                var result = db.ExpectedObjects.FirstOrDefault(x => x.Repository.ToUpperInvariant() == repository.ToUpperInvariant()
-                && x.ObjectId.ToUpperInvariant() == request.oid.ToUpperInvariant());
+                var result = db.ExpectedObjects.FirstOrDefault(x => x.Repository == repository
+                && x.ObjectId == request.oid);
 
                 if (result != null)
                 {
@@ -30,17 +32,16 @@ namespace DataStorage.Api.Repositories
                     };
 
                     db.ExpectedObjects.Add(entity);
-                    db.SaveChanges();
+                    await db.SaveChangesAsync();
                 }
             }
         }
 
-        public ExpectedObjectDTO GetDataObject(string repository, string objectId)
+        public async Task<ExpectedObjectDTO> GetDataObject(string repository, string objectId)
         {
             using (var db = new DataStorageContext())
             {
-                var result = db.ExpectedObjects.FirstOrDefault(x => x.Repository.ToUpperInvariant() == repository.ToUpperInvariant()
-                && x.ObjectId.ToUpperInvariant() == objectId.ToUpperInvariant());
+                var result = await db.ExpectedObjects.Where(x => x.Repository == repository && x.ObjectId == objectId).FirstOrDefaultAsync();
 
                 if (result == null)
                 {
@@ -52,7 +53,7 @@ namespace DataStorage.Api.Repositories
                     return new ExpectedObjectDTO
                     {
                         oid = result.ObjectId,
-                        size = long.Parse(result.Size)
+                        size = result.Size
                     };
 
                 }
@@ -63,8 +64,8 @@ namespace DataStorage.Api.Repositories
         {
             using (var db = new DataStorageContext())
             {
-                var entityToBeRemoved = db.ExpectedObjects.FirstOrDefault(x => x.Repository.ToUpperInvariant() == repository.ToUpperInvariant() 
-                && x.ObjectId.ToUpperInvariant() == objectId.ToUpperInvariant());
+                var entityToBeRemoved = db.ExpectedObjects.FirstOrDefault(x => x.Repository == repository 
+                && x.ObjectId == objectId);
 
                 if (entityToBeRemoved != null)
                 {

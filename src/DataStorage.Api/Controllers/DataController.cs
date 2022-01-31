@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using DataStorage.Api.Interfaces.Services;
 using DataStorage.Api.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +22,7 @@ namespace DataStorage.Api.Controllers
         [ProducesResponseType(201)]
         [HttpPut]
         [Route("{repository}")]
-        public IActionResult UploadObjectAsync(string repository, CreateObjectRequest request)
+        public async Task<IActionResult> UploadObjectAsync(string repository, CreateObjectRequest request)
         {
             if (string.IsNullOrEmpty(repository))
             {
@@ -30,8 +31,8 @@ namespace DataStorage.Api.Controllers
 
             try 
             {
-                _dataService.UpdateDataObject(repository, request);
-                return Ok();
+                await _dataService.UpdateDataObject(repository, request);
+                return StatusCode(201);
             }
             catch(Exception e)
             {
@@ -43,7 +44,7 @@ namespace DataStorage.Api.Controllers
         [ProducesResponseType(404)]
         [HttpGet]
         [Route("{repository}/{objectID}")]
-        public IActionResult DownloadObject(string repository, string objectID)
+        public async Task<IActionResult> DownloadObject(string repository, string objectID)
         {
             if (string.IsNullOrEmpty(repository) || string.IsNullOrEmpty(objectID))
             {
@@ -53,7 +54,7 @@ namespace DataStorage.Api.Controllers
 
             try
             {
-                var result = _dataService.GetDataObject(repository, objectID);
+                var result = await _dataService.GetDataObject(repository, objectID);
                 return Ok(result);
             }
             catch(KeyNotFoundException e)

@@ -8,7 +8,8 @@ namespace DataStorage.EF.Configurations
     {
         public void Configure(EntityTypeBuilder<ExpectedObject> builder)
         {
-            builder.HasKey(e => e.ObjectId);
+            builder.HasKey(e => e.Id);
+            builder.Property(e => e.Id).ValueGeneratedOnAdd();
         }
     }
 }

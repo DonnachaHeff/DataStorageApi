@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -12,13 +13,14 @@ namespace DataStorage.EF.Migrations
                 name: "ExpectedObjects",
                 columns: table => new
                 {
-                    ObjectId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Size = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ObjectId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Size = table.Column<long>(type: "bigint", nullable: false),
                     Repository = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ExpectedObjects", x => x.ObjectId);
+                    table.PrimaryKey("PK_ExpectedObjects", x => x.Id);
                 });
         }
 

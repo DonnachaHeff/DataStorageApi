@@ -1,6 +1,7 @@
 ﻿using DataStorage.Api.Interfaces.Repository;
 using DataStorage.Api.Interfaces.Services;
 using DataStorage.Api.Models;
+using System.Threading.Tasks;
 
 namespace DataStorage.Api.Services
 {
@@ -13,14 +14,14 @@ namespace DataStorage.Api.Services
             _dataRepository = dataRepository;
         }
 
-        public void UpdateDataObject(string repository, CreateObjectRequest request)
+        public async Task UpdateDataObject(string repository, CreateObjectRequest request)
         {
-            _dataRepository.UpdateData(repository, request);
+            await _dataRepository.UpdateData(repository, request);
         }
 
-        public ExpectedObjectDTO GetDataObject(string repository, string objectId)
+        public async Task<ExpectedObjectDTO> GetDataObject(string repository, string objectId)
         {
-            return _dataRepository.GetDataObject(repository, objectId);
+            return await _dataRepository.GetDataObject(repository, objectId);
         }
 
         public void DeleteDataObject(string repository, string objectId)
