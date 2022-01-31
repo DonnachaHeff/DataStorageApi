@@ -16,7 +16,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStorage.EF", "DataStorage.EF\DataStorage.EF.csproj", "{163A91F7-9719-4E8A-BB87-73D7F61D718C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataStorage.EF", "DataStorage.EF\DataStorage.EF.csproj", "{163A91F7-9719-4E8A-BB87-73D7F61D718C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "data", "data", "{6D0CB780-108D-4A39-9CFF-55FDF3999374}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +45,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{F90F0820-3E91-420F-9D41-FE940FFAF445} = {6F278A85-D4CE-46AC-A670-5090A48FC214}
 		{E06DA752-DFAD-47FF-9226-3B2F1EBD1305} = {787C0D3B-29E2-4228-A9E3-D06AB556DCF5}
+		{163A91F7-9719-4E8A-BB87-73D7F61D718C} = {6D0CB780-108D-4A39-9CFF-55FDF3999374}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3A857B0C-A3E1-47CC-940C-534AC17AF17C}
