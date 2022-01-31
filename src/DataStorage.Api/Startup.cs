@@ -20,7 +20,6 @@ namespace DataStorage.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSwaggerGen();
-            services.AddControllers();
             services.AddDependencies();
             services.AddControllers();
         }
