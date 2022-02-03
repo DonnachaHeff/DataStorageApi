@@ -22,7 +22,7 @@ namespace DataStorage.Api.Controllers
         [ProducesResponseType(201)]
         [HttpPut]
         [Route("{repository}")]
-        public async Task<IActionResult> UploadObjectAsync(string repository, CreateObjectRequest request)
+        public async Task<IActionResult> UploadObjectAsync(string repository, [FromBody] CreateObjectRequest request)
         {
             if (string.IsNullOrEmpty(repository))
             {
